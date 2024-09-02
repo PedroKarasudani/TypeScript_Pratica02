@@ -21,12 +21,14 @@ export default class Slide {
     this.slides = slides;
     this.controls = controls;
     this.time = time;
-    this.index = 0;
+    this.index = localStorage.getItem('activeSlide')
+      ? Number(localStorage.getItem('activeSlide'))
+      : 0;
     this.slide = this.slides[this.index];
-    this.init();
     this.timeout = null;
     this.pausedTimeout = null;
     this.paused = false;
+    this.init();
   }
 
   hide(el: Element) {
@@ -40,6 +42,7 @@ export default class Slide {
   show(index: number) {
     this.index = index;
     this.slide = this.slides[this.index];
+    localStorage.setItem('activeSlide', String(this.index));
 
     this.slides.forEach((el) => this.hide(el));
     this.slide.classList.add('active');
